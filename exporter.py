@@ -37,7 +37,7 @@ with open(config['playlist_file'], 'w') as p:
         track_slug=slugify(f"{track['title']} by {track['artist']}")
         track_file=f"{config['tracks_dir']}/{track['id']}_{track_slug}.{track['suffix']}"
         track_size=track['size']
-        if os.path.isfile(track_file) and os.stat(track_file).st_size == track_size:
+        if os.path.isfile(track_file):
             print(f"Already have: {track_file}")
         else:
             r_track=requests.get(f"{config['api_base']}/download", query_options | {'id': track['id']})
