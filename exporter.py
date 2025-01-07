@@ -91,7 +91,8 @@ with open(config['playlist_file'], 'w') as p:
         track_file = f"{config['tracks_dir']}/{track['id']}_{track_slug}.{track['suffix']}"
         track_size = track['size']
         if os.path.isfile(track_file):
-            print(f"Already downloaded: {track_file}")
+            #print(f"Already downloaded: {track_file}")
+            pass
         else:
             r_track = requests.get(f"{config['api_base']}/download", query_options | {'id': track['id']})
             print(f"Downloading now: {track_file}")
