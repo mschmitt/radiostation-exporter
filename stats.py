@@ -31,13 +31,15 @@ playlist_id = find_id_for_playlist(config['want_playlist'], playlists)
 featured_tracks = set()
 featured_albums = set()
 featured_artists = set()
+playtime = 0
 r_tracks = requests.get(f"{config['api_base']}/getPlaylist", query_options | {'id': playlist_id})
 tracks = (r_tracks.json())['subsonic-response']['playlist']['entry']
 for track in tracks:
     featured_albums.add(track['albumId'])
     featured_artists.add(track['artistId'])
     featured_tracks.add(track['id'])
+    playtime += track['duration']
 
-print(json.dumps({'tracks': len(featured_tracks), 'artists': len(featured_artists), 'albums': len(featured_albums)}))
+print(json.dumps({'tracks': len(featured_tracks), 'artists': len(featured_artists), 'albums': len(featured_albums), 'hours': round(playtime / 3600, 0)}))
 with open(config['stats_file'], "w") as stats:
-    json.dump({'tracks': len(featured_tracks), 'artists': len(featured_artists), 'albums': len(featured_albums)}, stats)
+    json.dump({'tracks': len(featured_tracks), 'artists': len(featured_artists), 'albums': len(featured_albums), 'hours': round(playtime / 3600, 0)}, stats)
