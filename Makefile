@@ -5,7 +5,3 @@ all:
 	toml2json config.toml | jq -r .tracks_dir  | xargs collectiongain
 	./reload.py config.toml
 	./stats.py config.toml
-
-shuf:
-	./shuffle.sh
-	./reload.py config.toml
